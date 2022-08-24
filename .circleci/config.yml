@@ -5,7 +5,7 @@ general:
 #     only:
 #       - dev # specific branch
 #       - /dev-.*/ # or regexes
-jobs:
+
   machine:
     timezone: America/New_York
     environment:
