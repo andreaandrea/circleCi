@@ -39,7 +39,7 @@ jobs:
             echo $HUB_SERVER_KEY_HEX | xxd -r -ps >> keys/hub.key
             openssl rsa -in keys/hub.key -check -noout
             sfdx force:auth:jwt:grant --clientid $HUB_CONSUMER_KEY --jwtkeyfile keys/hub.key --username $HUB_SFDC_USER --setdefaultdevhubusername -a hub
-            - run:
+       - run:
           name: Deploy to Target Deployment Org
           command: |
             #Deploy to target deployment org and run unit tests. 
