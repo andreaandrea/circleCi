@@ -1,4 +1,4 @@
-
+version: 2.1
 general:
 # Uncomment the following to specify only a specific branch
 #   branches:
