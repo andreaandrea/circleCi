@@ -22,9 +22,6 @@ jobs:
           command: |
             mkdir sfdx
             wget -qO- $DX_CLI_URL | tar xJ -C sfdx --strip-components 1
-      - run:
-          name: Install CLI
-          command: |
             ./sfdx/install
             sfdx
             mkdir tmp
