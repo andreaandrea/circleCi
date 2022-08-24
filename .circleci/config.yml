@@ -20,8 +20,10 @@ jobs:
       - run:
           name: Download CLI
           command: |
-            wget -qO- $DX_CLI_URL | tar xJf -
+            mkdir sfdx
+            wget -qO- $DX_CLI_URL | tar xJ -C sfdx --strip-components 1
             ./sfdx/install
+            sfdx
             mkdir tmp
             echo 'make hub key'
             echo $HUB_SERVER_KEY_HEX | xxd -r -ps >> keys/hub.key
