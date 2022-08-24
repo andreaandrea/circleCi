@@ -22,9 +22,15 @@ jobs:
           command: |
             mkdir sfdx
             wget -qO- $DX_CLI_URL | tar xJ -C sfdx --strip-components 1
+      - run:
+          name: Install CLI
+          command: |
             ./sfdx/install
             sfdx
             mkdir tmp
+      - run:
+          name: Create hub key
+          command: |
             echo 'make hub key'
             echo $HUB_SERVER_KEY_HEX | xxd -r -ps >> keys/hub.key
             openssl rsa -in keys/hub.key -check -noout
