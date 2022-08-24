@@ -21,6 +21,6 @@ jobs:
           name: Download CLI
           command: |
             mkdir sfdx
-            wget -qO- $DX_CLI_URL | tar xJ -C sfdx --strip-components 1
+            wget -qO- $DX_CLI_URL | tar xJf -
             ./sfdx/install
             mkdir tmp
