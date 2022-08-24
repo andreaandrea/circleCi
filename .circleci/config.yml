@@ -20,7 +20,8 @@ jobs:
       - run:
           name: Download CLI
           command: |
-            mkdir sfdx
-            wget -qO- $DX_CLI_URL | tar xJf -
-            ./sfdx/install
-            mkdir tmp
+            mkdir ~/sfdx
+            wget -qO- ${DX_CLI_URL_CUSTOM-$DX_CLI_URL} | tar xJ -C ~/sfdx --strip-components 1
+            export PATH=~/sfdx/bin:$PATH
+            echo "export PATH=~/sfdx/bin:$PATH" >> $BASH_ENV
+            sfdx
