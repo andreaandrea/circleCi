@@ -35,9 +35,32 @@ jobs:
             export PATH=~/sfdx/bin:$PATH
             echo "export PATH=~/sfdx/bin:$PATH" >> $BASH_ENV
             sfdx
+      - run:
+          name: Decrypt server key
+          command: |
+            #Decrypt server key        
             echo 'make hub key'
             echo $HUB_SERVER_KEY_HEX | xxd -r -ps >> keys/hub.key
             openssl rsa -in keys/hub.key -check -noout
+      - run:
+          name: Authorize Target Deployment Org
+          command: |
+            #Authorize target org      
             sfdx force:auth:jwt:grant --clientid $HUB_CONSUMER_KEY --jwtkeyfile keys/hub.key --username $HUB_SFDC_USER --setdefaultdevhubusername -a hub
             sfdx force --help
-            sfdx force:org:create -s -f config/project-scratch-def.json -a circle_build_$CIRCLE_BUILD_NUM
+      - run:
+          name: Create scratch org and push code
+          command: |      
+            sfdx force:org:create -s -f config/project-scratch-def.json -a circle_build_$CIRCLE_BUILD_NUM --wait 2
+            sfdx force:source:push -u circle_build_$CIRCLE_BUILD_NUM
+      - run:
+          name: Run Apex Tests
+          command: |
+            mkdir -p $CIRCLE_TEST_REPORTS/junit
+            sfdx force:apex:test:run -c -d $CIRCLE_TEST_REPORTS/junit -r junit --wait 5
+      - store_test_results:
+          path: ~/junit
+      - run:
+          name: Delete Useless Scratch Org
+          command: |
+            sfdx force:org:delete -u circle_build_$CIRCLE_BUILD_NUM -p    
