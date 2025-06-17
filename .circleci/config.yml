@@ -47,9 +47,7 @@ jobs:
           command: |
             #Authorize target org      
            sfdx force:auth:jwt:grant --clientid $HUB_CONSUMER_KEY --jwtkeyfile keys/hub.key --username $HUB_SFDC_USER --setdefaultdevhubusername -a hub
-            
-           
-            sfdx force --help
+           sfdx force --help
       - run:
           name: Create scratch org and push code
           command: |      
